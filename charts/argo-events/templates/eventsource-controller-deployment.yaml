@@ -35,3 +35,17 @@ spec:
                   fieldPath: metadata.namespace
             - name: EVENTSOURCE_IMAGE
               value: "{{ .Values.registry }}/{{ .Values.eventsourceController.eventsourceImage }}:{{ .Values.eventsourceController.tag }}"
+          resources:
+{{ toYaml .Values.eventsourceController.resources | indent 12 }}
+    {{- with .Values.eventsourceController.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.eventsourceController.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.eventsourceController.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

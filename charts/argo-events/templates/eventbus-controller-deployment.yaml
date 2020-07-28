@@ -37,3 +37,17 @@ spec:
               value: {{ .Values.eventbusController.natsStreamingImage }}
             - name: NATS_METRICS_EXPORTER_IMAGE
               value: {{ .Values.eventbusController.natsMetricsExporterImage }}
+          resources:
+{{ toYaml .Values.eventbusController.resources | indent 12 }}
+    {{- with .Values.eventbusController.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.eventbusController.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.eventbusController.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

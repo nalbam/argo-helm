@@ -35,3 +35,17 @@ spec:
                   fieldPath: metadata.namespace
             - name: SENSOR_IMAGE
               value: "{{ .Values.registry }}/{{ .Values.sensorController.sensorImage }}:{{ .Values.sensorController.tag }}"
+          resources:
+{{ toYaml .Values.sensorController.resources | indent 12 }}
+    {{- with .Values.sensorController.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.sensorController.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.sensorController.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
