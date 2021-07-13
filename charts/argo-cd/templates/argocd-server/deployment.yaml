@@ -68,6 +68,9 @@ spec:
         env:
 {{- toYaml .Values.server.env | nindent 8 }}
         {{- end }}
+        {{- with .Values.server.envFrom }}
+        envFrom: {{- toYaml . | nindent 8 }}
+        {{- end }}
         volumeMounts:
         {{- if .Values.server.volumeMounts }}
 {{- toYaml .Values.server.volumeMounts | nindent 8}}
@@ -87,6 +90,8 @@ spec:
           subPath: "custom.styles.css"
           name: custom-styles
         {{- end }}
+        - mountPath: /tmp
+          name: tmp-dir
         ports:
         - name: {{ .Values.server.name }}
           containerPort: {{ .Values.server.containerPort }}
@@ -146,6 +151,8 @@ spec:
       {{- end }}
       - emptyDir: {}
         name: static-files
+      - emptyDir: {}
+        name: tmp-dir
       {{- if .Values.configs.styles }}
       - configMap:
           name: argocd-custom-styles
